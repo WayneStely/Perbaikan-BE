@@ -10,6 +10,42 @@ const {
 const router = express.Router();
 
 
+router.get("/", async(req, res) => {
+    try {
+        const result = await getAllDosen();
+        res.status(200).json({
+            status: "success",
+            data: result,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get("/:id", async(req, res) => {
+    try {
+        const idDosen = parseInt(req.params.id);
+        const dosen = await getDosenById(idDosen);
+        res.send(dosen);
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
+router.post("/", async(req, res) => {
+    try {
+        const newDosen = req.body;
+        const dosen = await addDosen(newDosen);
+        res.send({
+            data: dosen,
+            message: "Dosen berhasil ditambahkan",
+        });
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
 
 router.put("/:id", async(req, res) => {
     try {

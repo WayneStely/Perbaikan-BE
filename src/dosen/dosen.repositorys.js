@@ -1,6 +1,27 @@
 const prisma = require("../database");
 
+const findDosen = async() => {
+    const dosen = await prisma.dosen.findMany();
+    return dosen;
+};
 
+const findDosenById = async(id) => {
+    const dosen = await prisma.dosen.findUnique({
+        where: {
+            id,
+        },
+    });
+    return dosen;
+};
+const insertDosen = async(dosenData) => {
+    const dosen = await prisma.dosen.create({
+        data: {
+            nik: dosenData.nik,
+            nama: dosenData.nama,
+        },
+    });
+    return dosen;
+};
 
 
 
